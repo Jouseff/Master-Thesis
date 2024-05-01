@@ -1,0 +1,61 @@
+{
+  "lidar_transformation": {
+    "blocks": [450682],
+    "path_to_lidar_object": "/repo_TFM/pre_input/metrics_lidar_blocks.rds",
+    "path_to_store_result": "/repo_TFM/input/LiDAR"
+  },
+  "seed": 33,
+  "paths": {
+    "LiDAR": "/input/LiDAR",
+    "dfs": "/output/dataframes",
+    "forest": "/input/forest",
+    "maps": "/output/maps",
+    "others": "/input/others",
+    "plots": "/output/plots",
+    "gifs": "/output/gifs",
+    "maps_for_gif": "/output/maps_for_gif"
+  },
+  "map": {
+    "area_cell": 0.04,
+    "stands_per_block_side": 3
+  },
+  "simulated_annealing": {
+    "iter_stats": false,
+    "activate": true,
+    "T_initial": 0.1,
+    "T_final": 0.001,
+    "Cooling": 0.9,
+    "Iter_per_T": 5000,
+    "term_weights": [0.5, 0.25, 0.25],
+    "metric_weights": [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125]
+  },
+  "genetic_algorithm": {
+    "activate": false
+  },
+  "self_organizing_map": {
+    "activate": false
+  },
+  "cellular_automata": {
+    "activate": false
+  },
+  "fine_tuning": {
+    "grid_filter_side": 3,
+    "cellular_automata_hybrid": false
+  },
+  "cleaning": {
+    "minimum_area": 10
+  },
+  "evaluation": {
+    "statistics": {
+      "variance": true,
+      "R2": true
+    },
+    "morphology": {
+      "area_distribution": true,
+      "roundness": true
+    }
+  },
+  "graphic_outputs": {
+    "gif_duration": 5
+  }
+}
