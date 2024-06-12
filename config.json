@@ -1,33 +1,52 @@
 {
   "lidar_transformation": {
-    "blocks": [450682],
-    "path_to_lidar_object": "/repo_TFM/pre_input/metrics_lidar_blocks.rds",
-    "path_to_store_result": "/repo_TFM/input/LiDAR"
+    "use_pca": false,
+    "blocks": [450682]
   },
   "seed": 33,
   "paths": {
-    "LiDAR": "/input/LiDAR",
-    "dfs": "/output/dataframes",
-    "forest": "/input/forest",
-    "maps": "/output/maps",
-    "others": "/input/others",
-    "plots": "/output/plots",
-    "gifs": "/output/gifs",
-    "maps_for_gif": "/output/maps_for_gif"
+    "LiDAR": "input",
+    "dfs": "output/dataframes",
+    "maps": "output/maps",
+    "plots": "output/plots",
+    "arrays": "output/arrays",
+    "gifs": "output/gifs",
+    "maps_for_gif": "output/maps_for_gif"
   },
   "map": {
-    "area_cell": 0.04,
-    "stands_per_block_side": 3
+    "cell_area": 0.04,
+    "cells_per_side": 100,
+    "stands_per_side": 2
   },
   "simulated_annealing": {
-    "iter_stats": false,
     "activate": true,
     "T_initial": 0.1,
-    "T_final": 0.001,
+    "ponder_of_by_area": true,
+    "T_final": 0.000001,
     "Cooling": 0.9,
-    "Iter_per_T": 5000,
-    "term_weights": [0.5, 0.25, 0.25],
-    "metric_weights": [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125]
+    "Iter_per_T": 500,
+    "term_weights": [
+      [0.05, 0.9, 0.05],
+      [0.1, 0.8, 0.1],
+      [0.15, 0.7, 0.15],
+      [0.2, 0.6, 0.2],
+      [0.25, 0.5, 0.25]
+    ],
+    "metric_weights": [0.368, 2.472, 0.673, 0.013, 0.001],
+    "df_names": [
+      "Mean area after algorithm",
+      "Mean area after cleaning",
+      "Mean area after splitting",
+      "Mean area after filtering",
+      "Average heuristic after algorithm",
+      "Average heuristic after cleaning",
+      "Average heuristic after splitting",
+      "Average heuristic after filtering",
+      "Average R^2 after algorithm",
+      "Average R^2 after cleaning",
+      "Average R^2 after splitting",
+      "Average R^2 after filtering"
+    ]
   },
   "genetic_algorithm": {
     "activate": false
@@ -56,6 +75,7 @@
     }
   },
   "graphic_outputs": {
+    "gif_create": true,
     "gif_duration": 5
   }
 }
