@@ -16,15 +16,16 @@
   "map": {
     "cell_area": 0.04,
     "cells_per_side": 100,
-    "stands_per_side": 2
+    "stands_per_side": 3
   },
   "simulated_annealing": {
     "activate": true,
     "T_initial": 0.1,
     "ponder_of_by_area": true,
-    "T_final": 0.000001,
-    "Cooling": 0.9,
-    "Iter_per_T": 500,
+    "shape_term": true,
+    "T_final": 0.00001,
+    "Cooling": 0.95,
+    "Iter_per_T": 2500,
     "term_weights": [
       [0.05, 0.9, 0.05],
       [0.1, 0.8, 0.1],
@@ -32,7 +33,7 @@
       [0.2, 0.6, 0.2],
       [0.25, 0.5, 0.25]
     ],
-    "metric_weights": [0.368, 2.472, 0.673, 0.013, 0.001],
+    "metric_weights": [33.5, 20.3],
     "df_names": [
       "Mean area after algorithm",
       "Mean area after cleaning",

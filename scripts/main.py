@@ -12,12 +12,12 @@ config = Config()
 
 random.seed(config.seed)
 inputs = read_lidar(config)
-row_names = ['Elev.skewn', 'Int.skewne', 'Int.P70', 'All_mode', 'northness']
+row_names = ['Elev.P20', 'Elev.stdde'] #, 'Num_eco1', 'Elev.MAD.m', 'PEco1_Mean', 'PEco1_Mode'
 if config.SA_on:
     # statistics_df = pd.DataFrame(index=[f'{i}' for i in config.SA_term_weights], columns=config.SA_df_names)
     # statistics_df = pd.DataFrame(columns=[f'{i}' for i in config.SA_term_weights], index=row_names)
     statistics_df = pd.DataFrame(index=row_names)
-    for i, weights_combination in enumerate([config.SA_term_weights[1]]):
+    for i, weights_combination in enumerate([config.SA_term_weights[0]]):
         start_grid, num_stands = create_grid(config, inputs)
         dict_grid = create_dict_grid(config, start_grid)
 
@@ -51,8 +51,10 @@ if config.SA_on:
 
         heatmap_grid_data(config, filtered_grid, 0, weights_combination, row_names[0])
         heatmap_grid_data(config, filtered_grid, 1, weights_combination, row_names[1])
-        heatmap_grid_data(config, filtered_grid, 2, weights_combination, row_names[2])
-        heatmap_grid_data(config, filtered_grid, 3, weights_combination, row_names[3])
-        heatmap_grid_data(config, filtered_grid, 4, weights_combination, row_names[4])
+        # heatmap_grid_data(config, filtered_grid, 2, weights_combination, row_names[2])
+        # heatmap_grid_data(config, filtered_grid, 3, weights_combination, row_names[3])
+        # heatmap_grid_data(config, filtered_grid, 4, weights_combination, row_names[4])
+        # heatmap_grid_data(config, filtered_grid, 5, weights_combination, row_names[5])
+
 
     statistics_df.to_csv(f'{config.path_dfs}/statistics_pondered_area_forest_metrics.csv', index=False)

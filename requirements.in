@@ -1,7 +1,9 @@
-numpy
+numpy~=1.26.4
 scikit-learn
-pandas
-matplotlib
+pandas~=2.2.2
+matplotlib~=3.8.4
 simpledbf
 tqdm
-imageio
+glob
+gurobipy
+scipy~=1.13.0

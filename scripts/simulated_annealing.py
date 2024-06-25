@@ -42,26 +42,22 @@ def stand_variance(config: Config, data_list: list, weights_of: list) -> float:
     :param data_list: list of lists, where each element list contains all the metrics for a given cell of the stand
     :return: the numeric value of the variance term of the SA metaheuristic
     """
-    normalization = sum(config.SA_metric_weights) * 100
+    normalization = sum(config.SA_metric_weights)
     relative_variance = sum(config.SA_metric_weights[i] * np.var(data_list[i]) /
                             (np.mean(data_list[i]) * normalization) for i in range(len(config.SA_metric_weights)))
     result = weights_of[1] / (1 + np.exp(3 * (abs(relative_variance) - 0.3)))
     # print(relative_variance, result)
     return result
 
-
-def stand_shape(config: Config, centroid_coords: list, num_cells: int, x_coords: list, y_coords: list, weights_of: list) -> float:
+def stand_shape(config: Config, num_cells: int,  x_coords: list, y_coords: list, weights_of: list) -> float:
     """
     Function that computes the shape term of the SA metaheuristic
 
     :param config: config class from the config.json object
-    :param centroid_coords: coordinates of the center of the stand
-    :param num_cells: number of cells that the stand has
-    :param x_coords: list of the x coordinates of all the cells of the stands
-    :param y_coords: list of the y coordinates of all the cells of the stands
     :return: the numeric value of the shape term of the SA metaheuristic
     """
     weight_shape = weights_of[2]
+    centroid_coords = [np.mean(x_coords), np.mean(y_coords)]
     result = weight_shape / num_cells * sum(1 / (1 + np.exp(8 * (np.linalg.norm(np.array([x_coords[i], y_coords[i]])
                                                                                 - np.array(centroid_coords)) /
                                                                  np.sqrt(num_cells * config.cell_area / np.pi) - 1)))
@@ -97,21 +93,29 @@ def stand_objective_function(config: Config, dict_stand: dict, weights_of: list)
         length = len(next(iter(dict_stand.values())))
         transposed_dict_stand = {i: [value[i] for value in dict_stand.values()] for i in range(length)}
 
-        # x_coords_stand = transposed_dict_stand[0]
-        # y_coords_stand = transposed_dict_stand[1]
+        x_coords_stand = transposed_dict_stand[0]
+        y_coords_stand = transposed_dict_stand[1]
         stand_data = [transposed_dict_stand[i+2] for i in range(len(config.SA_metric_weights))]
 
-        # stand_centroid = centroid(x_coords_stand, y_coords_stand)
-
-        objective_function = stand_area(config, len(dict_stand), weights_of) + \
-                             stand_variance(config, stand_data, weights_of) + \
-                             stand_fract(dict_stand, weights_of)
+        if config.SA_shape:
+            objective_function = stand_area(config, len(dict_stand), weights_of) + \
+                                 stand_variance(config, stand_data, weights_of) + \
+                                 stand_shape(config, len(dict_stand), x_coords_stand, y_coords_stand, weights_of)
+        else:
+            objective_function = stand_area(config, len(dict_stand), weights_of) + \
+                                 stand_variance(config, stand_data, weights_of) + \
+                                 stand_fract(dict_stand, weights_of)
         return objective_function
     elif len(dict_stand) == 1:
-        initial_area = math.ceil((config.cells_per_side / config.stands_per_side) ** 2) * config.cell_area
-        term_area = weights_of[0] / (1 + np.exp(-2.634 * (config.cell_area / initial_area - 1)))
-        term_fractal = weights_of[2] / (1 + np.exp(10 * (1 - 1.5)))
-        return term_area + term_fractal
+        if config.SA_shape:
+            initial_area = math.ceil((config.cells_per_side / config.stands_per_side) ** 2) * config.cell_area
+            term_area = weights_of[0] / (1 + np.exp(-2.634 * (config.cell_area / initial_area - 1)))
+            return term_area + weights_of[2]
+        else:
+            initial_area = math.ceil((config.cells_per_side / config.stands_per_side) ** 2) * config.cell_area
+            term_area = weights_of[0] / (1 + np.exp(-2.634 * (config.cell_area / initial_area - 1)))
+            term_fractal = weights_of[2] / (1 + np.exp(10 * (1 - 1.5)))
+            return term_area + term_fractal
     else:
         return 0
 

@@ -21,13 +21,13 @@ def read_lidar(config: Config) -> pd.DataFrame:
     if config.use_pca:
         csv_file_paths = [config.path_LiDAR + f'/pca_block_{i}.csv' for i in config.blocks]
     else:
-        csv_file_paths = [config.path_LiDAR + f'/filtered_lidar_{i}.csv' for i in config.blocks]
+        csv_file_paths = [config.path_LiDAR + f'/try_{i}.csv' for i in config.blocks]
 
     concat_df = pd.read_csv(csv_file_paths[0])
     for file in csv_file_paths[1:]:
         csv_df = pd.read_csv(file)
         concat_df = pd.concat([concat_df, csv_df], ignore_index = True)
-        concat_df = concat_df.drop(columns=['Return.3.c', 'Elev.IQ', 'Elev.P40', 'Int.P40', 'Total.firs', 'elevation'])
+        # concat_df = concat_df.drop(columns=['Return.3.c', 'Elev.IQ', 'Elev.P40', 'Int.P40', 'Total.firs', 'elevation'])
 
     return concat_df
 
@@ -55,13 +55,13 @@ def create_grid(config: Config, df: pd.DataFrame) -> tuple:
     for index, row in df.iterrows():
         cell_index_x = int((row['center.X'] - lowest_x) / 20)
         cell_index_y = int((row['center.Y'] - lowest_y) / 20)
-        cell_data_list = list(row)[:-8]
+        cell_data_list = list(row)[:-2]
         if np.isnan(cell_data_list).any():
             cell_data_list = []
         big_grid[cell_index_x, cell_index_y] = Cell(0, cell_data_list, row['center.X'], row['center.Y'],
                                                     cell_index_x, cell_index_y)
 
-    grid = big_grid[50:, :50]
+    grid = big_grid[50:, 50:]
     num_stands = config.stands_per_side ** 2 * num_blocks_x * num_blocks_y
 
     stand_side_x_list = []

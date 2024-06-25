@@ -35,6 +35,7 @@ class Config:
 
         self.SA = config['simulated_annealing']
         self.SA_on = self.SA['activate']
+        self.SA_shape = self.SA['shape_term']
         self.SA_Ti = self.SA['T_initial']
         self.SA_Tf = self.SA['T_final']
         self.SA_C = self.SA['Cooling']
