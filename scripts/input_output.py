@@ -21,7 +21,7 @@ def read_lidar(config: Config) -> pd.DataFrame:
     if config.use_pca:
         csv_file_paths = [config.path_LiDAR + f'/pca_block_{i}.csv' for i in config.blocks]
     else:
-        csv_file_paths = [config.path_LiDAR + f'/try_{i}.csv' for i in config.blocks]
+        csv_file_paths = [config.path_LiDAR + f'/filtered_lidar_{i}.csv' for i in config.blocks]
 
     concat_df = pd.read_csv(csv_file_paths[0])
     for file in csv_file_paths[1:]:

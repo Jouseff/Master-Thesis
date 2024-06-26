@@ -23,17 +23,18 @@
     "T_initial": 0.1,
     "ponder_of_by_area": true,
     "shape_term": true,
-    "T_final": 0.00001,
-    "Cooling": 0.95,
-    "Iter_per_T": 2500,
+    "T_final": 0.01,
+    "Cooling": 0.9,
+    "Iter_per_T": 100,
     "term_weights": [
+      [0, 1, 0],
       [0.05, 0.9, 0.05],
       [0.1, 0.8, 0.1],
       [0.15, 0.7, 0.15],
       [0.2, 0.6, 0.2],
       [0.25, 0.5, 0.25]
     ],
-    "metric_weights": [33.5, 20.3],
+    "metric_weights": [33.5, 20.3, 10.5, 0, 4.7],
     "df_names": [
       "Mean area after algorithm",
       "Mean area after cleaning",
